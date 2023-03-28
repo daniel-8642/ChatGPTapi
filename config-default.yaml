@@ -1,0 +1,19 @@
+Service:
+  Port: 3002
+
+OpenAI:
+  API_Key: sk-if6jU789safds89a0f7d89sDSAFDSAFD1234567890iLRywj # OpenAI API Key - https://platform.openai.com/overview
+  Base_URL: https://api.openai.com                        # OpenAI API Base URL - https://api.openai.com
+  Model:                                                  # OpenAI API Model - https://platform.openai.com/docs/models
+
+Requests:
+  ReverseProxy:                       # Reverse Proxy URL
+  Timeout: 110000                     # ms
+  MaxRateLimit: 60                    # per hour
+  AuthSecretKey: starsecretkeyend   # Secret key
+
+Socks_Proxy:
+  Host:                    # Socks Proxy Host
+  Port:                    # Socks Proxy Port
+
+HttpsProxy:                # HTTPS PROXY
