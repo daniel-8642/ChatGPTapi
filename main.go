@@ -2,11 +2,9 @@ package main
 
 import (
 	"GPTapi/Routers"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
-	"go.uber.org/zap"
 )
 
 func main() {
@@ -33,5 +31,4 @@ func initConfig() {
 	if err != nil {
 		panic(errors.Errorf("Fatal error config file: %v \n", err))
 	}
-	fmt.Println("initConfig", zap.Any("读取配置", viper.Get("welcome")))
 }
