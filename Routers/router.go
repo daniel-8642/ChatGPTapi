@@ -22,7 +22,7 @@ func SetUpRouter(api *gin.Engine) {
 	api.POST("/session", Middleware.RateLimitMiddleware(time.Second, 30), sessiondata)
 	api.POST("/verify", Middleware.RateLimitMiddleware(5*time.Second, 5), verify)
 	cliconfig := openai.DefaultConfig(viper.GetString("OpenAI.API_Key"))
-	cliconfig.BaseURL = viper.GetString("OpenAI.Base_URL")
+	cliconfig.BaseURL = viper.GetString("OpenAI.Base_URL") + "/v1"
 	client = openai.NewClientWithConfig(cliconfig)
 }
 
