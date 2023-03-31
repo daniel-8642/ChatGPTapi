@@ -22,7 +22,6 @@ func main() {
 		return
 	}
 	Routers.SetUpRouter(api)
-	fmt.Println("Server is running on port" + viper.GetString("Service.Port"))
 	_ = api.Run(":" + viper.GetString("Service.Port"))
 }
 
