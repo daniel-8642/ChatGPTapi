@@ -38,7 +38,7 @@ func chatProcess(c *gin.Context) {
 	}
 	req := openai.ChatCompletionRequest{
 		Model:     openai.GPT3Dot5Turbo,
-		MaxTokens: 600,
+		MaxTokens: 1500,
 		Messages: []openai.ChatCompletionMessage{
 			{
 				Role:    openai.ChatMessageRoleSystem,
