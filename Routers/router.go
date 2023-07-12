@@ -23,11 +23,16 @@ func SetUpRouter(api *gin.Engine) {
 	api.POST("/verify", Middleware.RateLimitMiddleware(5*time.Second, 5), verify)
 	var cliconfig openai.ClientConfig
 	if viper.GetBool("Use_Azure") {
-		cliconfig = openai.DefaultConfig(viper.GetString("OpenAI.API_Key"))
-	} else {
 		cliconfig = openai.DefaultAzureConfig(viper.GetString("Azure_OpenAI.API_Key"), viper.GetString("Azure_OpenAI.Endpoint"))
+		cliconfig.AzureModelMapperFunc = func(model string) string {
+			return map[string]string{
+				"gpt-3.5-turbo": viper.GetString("Azure_OpenAI.ModelName"),
+			}[model]
+		}
+	} else {
+		cliconfig = openai.DefaultConfig(viper.GetString("OpenAI.API_Key"))
+		cliconfig.BaseURL = viper.GetString("OpenAI.Base_URL") + "/v1"
 	}
-	cliconfig.BaseURL = viper.GetString("OpenAI.Base_URL") + "/v1"
 	client = openai.NewClientWithConfig(cliconfig)
 }
 
