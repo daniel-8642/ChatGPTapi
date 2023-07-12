@@ -1,0 +1,49 @@
+###
+
+# curl 'https://api.juejin.cn/booklet_api/v1/section/get?aid=2608&uuid=7133978909323036198&spider=0'
+#  -H 'authority: api.juejin.cn'
+#  -H 'accept: */*'
+#  -H 'accept-language: zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
+#  -H 'cache-control: no-cache'
+#  -H 'content-type: application/json'
+#  -H 'cookie: uid_tt=68fbec6ff90dafaddcd1bca8d2788502; uid_tt_ss=68fbec6ff90dafaddcd1bca8d2788502; sid_tt=ada7382d2479ce1a860c5f95ede6585b; sessionid=ada7382d2479ce1a860c5f95ede6585b; sessionid_ss=ada7382d2479ce1a860c5f95ede6585b; sid_guard=ada7382d2479ce1a860c5f95ede6585b%7C1659058496%7C31536000%7CSat%2C+29-Jul-2023+01%3A34%3A56+GMT; sid_ucp_v1=1.0.0-KDVlZWJjYjgxMzJhMjNhZDg5NjNiYTQ3ZWJjZmM3NTYxODA3NTc0NDAKFwj3t_DA_fWJBBDA8oyXBhiwFDgCQPEHGgJsZiIgYWRhNzM4MmQyNDc5Y2UxYTg2MGM1Zjk1ZWRlNjU4NWI; ssid_ucp_v1=1.0.0-KDVlZWJjYjgxMzJhMjNhZDg5NjNiYTQ3ZWJjZmM3NTYxODA3NTc0NDAKFwj3t_DA_fWJBBDA8oyXBhiwFDgCQPEHGgJsZiIgYWRhNzM4MmQyNDc5Y2UxYTg2MGM1Zjk1ZWRlNjU4NWI; __tea_cookie_tokens_2608=%257B%2522web_id%2522%253A%25227133978909323036198%2522%252C%2522user_unique_id%2522%253A%25227133978909323036198%2522%252C%2522timestamp%2522%253A1661008913402%257D; csrf_session_id=64aabf81c333d5f6fe49e820edba16f3; _tea_utm_cache_2608={%22utm_source%22:%22course_list%22}; msToken=al0AGxtWze66vhKFJUM5rlhCCtT1Mvhc34BmNak87vHtcR7k3sINojiDFMUhlt0pOel-xF_nHnUay7SzkTpQ72eySZ0YrejZr9QwMul3-K6XO6L3x04glg=='
+#  -H 'dnt: 1'
+#  -H 'origin: https://juejin.cn'
+#  -H 'pragma: no-cache'
+#  -H 'referer: https://juejin.cn/'
+#  -H 'sec-ch-ua: "Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'sec-fetch-dest: empty'
+#  -H 'sec-fetch-mode: cors'
+#  -H 'sec-fetch-site: same-site'
+#  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.50'
+#  -H 'x-secsdk-csrf-token: 000100000001e7046fde5004e651cd928772eeab58a1a5344cee43326a8d424273950a6421081762dec5ddc57472'
+#  --data-raw '{"section_id":"7214843760465674292"}'
+#  --compressed
+POST https://api.juejin.cn/booklet_api/v1/section/get?aid=2608&uuid=7133978909323036198&spider=0
+authority: api.juejin.cn
+accept: */*
+accept-language: zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6
+cache-control: no-cache
+cookie: uid_tt=68fbec6ff90dafaddcd1bca8d2788502; uid_tt_ss=68fbec6ff90dafaddcd1bca8d2788502; sid_tt=ada7382d2479ce1a860c5f95ede6585b; sessionid=ada7382d2479ce1a860c5f95ede6585b; sessionid_ss=ada7382d2479ce1a860c5f95ede6585b; sid_guard=ada7382d2479ce1a860c5f95ede6585b%7C1659058496%7C31536000%7CSat%2C+29-Jul-2023+01%3A34%3A56+GMT; sid_ucp_v1=1.0.0-KDVlZWJjYjgxMzJhMjNhZDg5NjNiYTQ3ZWJjZmM3NTYxODA3NTc0NDAKFwj3t_DA_fWJBBDA8oyXBhiwFDgCQPEHGgJsZiIgYWRhNzM4MmQyNDc5Y2UxYTg2MGM1Zjk1ZWRlNjU4NWI; ssid_ucp_v1=1.0.0-KDVlZWJjYjgxMzJhMjNhZDg5NjNiYTQ3ZWJjZmM3NTYxODA3NTc0NDAKFwj3t_DA_fWJBBDA8oyXBhiwFDgCQPEHGgJsZiIgYWRhNzM4MmQyNDc5Y2UxYTg2MGM1Zjk1ZWRlNjU4NWI; __tea_cookie_tokens_2608=%257B%2522web_id%2522%253A%25227133978909323036198%2522%252C%2522user_unique_id%2522%253A%25227133978909323036198%2522%252C%2522timestamp%2522%253A1661008913402%257D; csrf_session_id=64aabf81c333d5f6fe49e820edba16f3; _tea_utm_cache_2608={%22utm_source%22:%22course_list%22}; msToken=al0AGxtWze66vhKFJUM5rlhCCtT1Mvhc34BmNak87vHtcR7k3sINojiDFMUhlt0pOel-xF_nHnUay7SzkTpQ72eySZ0YrejZr9QwMul3-K6XO6L3x04glg==
+dnt: 1
+origin: https://juejin.cn
+pragma: no-cache
+referer: https://juejin.cn/
+sec-ch-ua: "Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+sec-fetch-dest: empty
+sec-fetch-mode: cors
+sec-fetch-site: same-site
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.50
+x-secsdk-csrf-token: 000100000001e7046fde5004e651cd928772eeab58a1a5344cee43326a8d424273950a6421081762dec5ddc57472
+Content-Type: application/json
+
+{
+  "section_id": "7209116226386133032"
+}
+
+###
+
