@@ -21,7 +21,12 @@ func SetUpRouter(api *gin.Engine) {
 	api.POST("/config", Middleware.Auth(viper.GetString("Requests.AuthSecretKey")), Middleware.RateLimitMiddleware(time.Second, 30), config)
 	api.POST("/session", Middleware.RateLimitMiddleware(time.Second, 30), sessiondata)
 	api.POST("/verify", Middleware.RateLimitMiddleware(5*time.Second, 5), verify)
-	cliconfig := openai.DefaultConfig(viper.GetString("OpenAI.API_Key"))
+	var cliconfig openai.ClientConfig
+	if viper.GetBool("Use_Azure") {
+		cliconfig = openai.DefaultConfig(viper.GetString("OpenAI.API_Key"))
+	} else {
+		cliconfig = openai.DefaultAzureConfig(viper.GetString("Azure_OpenAI.API_Key"), viper.GetString("Azure_OpenAI.Endpoint"))
+	}
 	cliconfig.BaseURL = viper.GetString("OpenAI.Base_URL") + "/v1"
 	client = openai.NewClientWithConfig(cliconfig)
 }

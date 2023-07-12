@@ -1,10 +1,16 @@
 Service:
   Port: 3002
 
+Use_Azure: true
+
 OpenAI:
   API_Key: sk-if6jU789safds89a0f7d89sDSAFDSAFD1234567890iLRywj # OpenAI API Key - https://platform.openai.com/overview
   Base_URL: https://api.openai.com                        # OpenAI API Base URL - https://api.openai.com
   Model:                                                  # OpenAI API Model - https://platform.openai.com/docs/models
+
+Azure_OpenAI:
+  Endpoint: https://YourEndpoint.openai.azure.com/
+  API_Key: e14536123456789012345678900000e2
 
 Requests:
   ReverseProxy:                       # Reverse Proxy URL
