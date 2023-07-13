@@ -3,13 +3,17 @@ package Routers
 import (
 	"GPTapi/Middleware"
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 	"github.com/sashabaranov/go-openai"
 	"github.com/spf13/viper"
+	"golang.org/x/net/proxy"
 	"io"
+	"net/http"
+	"net/url"
 	"time"
 )
 
@@ -32,6 +36,38 @@ func SetUpRouter(api *gin.Engine) {
 	} else {
 		cliconfig = openai.DefaultConfig(viper.GetString("OpenAI.API_Key"))
 		cliconfig.BaseURL = viper.GetString("OpenAI.Base_URL") + "/v1"
+	}
+	// 判断代理
+	if viper.GetString("HttpsProxy") != "" {
+		u := url.URL{}
+		urlproxy, _ := u.Parse(viper.GetString("HttpsProxy"))
+		cliconfig.HTTPClient = &http.Client{
+			Transport: &http.Transport{
+				Proxy: http.ProxyURL(urlproxy),
+			},
+		}
+	} else if viper.GetString("Socks_Proxy.Host") != "" &&
+		viper.GetInt("Socks_Proxy.Port") > 0 &&
+		viper.GetInt("Socks_Proxy.Port") <= 65535 {
+		proxyURL, err := url.Parse("socks5://" + viper.GetString("Socks_Proxy.Host") + ":" + viper.GetString("Socks_Proxy.Port"))
+		if err != nil {
+			fmt.Println("Parse socks5 address error")
+			panic(err)
+		}
+		dialer, err := proxy.FromURL(proxyURL, proxy.Direct)
+		if err != nil {
+			fmt.Println("Diale socks5 failed")
+			panic(err)
+		}
+		transport := &http.Transport{
+			Dial: dialer.Dial,
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
+			},
+		}
+		cliconfig.HTTPClient = &http.Client{
+			Transport: transport,
+		}
 	}
 	client = openai.NewClientWithConfig(cliconfig)
 }
