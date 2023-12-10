@@ -21,8 +21,8 @@ var client *openai.Client
 
 func SetUpRouter(api *gin.Engine) {
 	api.Use(Middleware.Cors)
-	api.POST("/chat-process", Middleware.Auth(viper.GetString("Requests.AuthSecretKey")), Middleware.RateLimitMiddleware(time.Second*100, 10), chatProcess)
-	api.POST("/config", Middleware.Auth(viper.GetString("Requests.AuthSecretKey")), Middleware.RateLimitMiddleware(time.Second, 30), config)
+	api.POST("/chat-process", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second*100, 10), chatProcess)
+	api.POST("/config", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second, 30), config)
 	api.POST("/session", Middleware.RateLimitMiddleware(time.Second, 30), sessiondata)
 	api.POST("/verify", Middleware.RateLimitMiddleware(5*time.Second, 5), verify)
 	var cliconfig openai.ClientConfig
@@ -156,7 +156,10 @@ func sessiondata(c *gin.Context) {
 	data := map[string]any{
 		"status":  "Success",
 		"message": "",
-		"data":    map[string]any{"auth": viper.GetString("Requests.AuthSecretKey") != "", "model": "ChatGPTAPI"},
+		"data": map[string]any{
+			"auth":  viper.IsSet("UserList"),
+			"model": "ChatGPTAPI",
+		},
 	}
 	c.JSON(200, &data)
 }
@@ -192,15 +195,16 @@ func verify(c *gin.Context) {
 		c.JSON(200, &data)
 		return
 	}
-	if viper.GetString("Requests.AuthSecretKey") == "" ||
-		viper.GetString("Requests.AuthSecretKey") == reqBody.Token {
+
+	if err, userInfo := Middleware.VerifyUser("UserList", reqBody.Token); err == nil {
 		data := map[string]any{
 			"status":  "Success",
 			"message": "登录成功 | Login succeeded",
-			"data":    nil,
+			"data": map[string]any{
+				"name": userInfo.Name,
+			},
 		}
 		c.JSON(200, data)
-		return
 	} else {
 		data := map[string]any{
 			"status":  "Fail",

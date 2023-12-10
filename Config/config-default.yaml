@@ -16,7 +16,9 @@ Requests:
   ReverseProxy:                       # Reverse Proxy URL
   Timeout: 110000                     # ms
   MaxRateLimit: 60                    # per hour
-  AuthSecretKey: starsecretkeyend   # Secret key
+
+UserList:
+  - starsecretkeyend: {name: "默认账户名"}
 
 Socks_Proxy:
   Host:                    # Socks Proxy Host
