@@ -25,7 +25,9 @@ COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certifica
 # 在build阶段, 复制./app目录下的可执行二进制文件到当前目录
 COPY --from=build /go/release/app /
 # 在build阶段, 复制yaml配置文件到当前目录, 此处需要注意调用该配置文件时使用的相对路径, main.go在当前目录下执行
-COPY --from=build /go/release/config.yaml /
+COPY ./Config/* /Config/
+
+VOLUME /Config/
 
 EXPOSE 80
 
