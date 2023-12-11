@@ -5,9 +5,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
+	"math/rand"
+	"time"
 )
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
 	initConfig()
 	api := gin.Default()
 	// 只信任内网http代理，影响Context.ClientIP()获取的ip，这里影响日志中来源ip的记录

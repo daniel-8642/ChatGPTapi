@@ -24,7 +24,7 @@ func Auth(prefixkey string) gin.HandlerFunc {
 				return
 			}
 			authrow = strings.Fields(authrow)[1]
-			if err, _ := VerifyUser(prefixkey, authrow); err != nil {
+			if err, user := VerifyUser(prefixkey, authrow); err != nil {
 				c.Abort()
 				data := map[string]any{
 					"status": "Unauthorized", "message": "Error: 无访问权限 | No access rights", "data": nil,
@@ -32,6 +32,7 @@ func Auth(prefixkey string) gin.HandlerFunc {
 				c.JSON(200, data)
 				return
 			} else {
+				c.Set("userName", user.Name)
 				c.Next()
 			}
 		}
