@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/viper"
 	"log/syslog"
 	"math/rand"
+	"strconv"
 )
 
 var sysLogger *syslog.Writer
@@ -27,7 +28,7 @@ func Dial() {
 func Send(str string) (len int) {
 	len = 0
 	if sysLogger != nil {
-		len, _ = sysLogger.Write([]byte(str))
+		len, _ = sysLogger.Write([]byte(strconv.Quote(str)))
 	} else if rand.Intn(100) <= 10 {
 		// 10%概率重试连接
 		Dial()
