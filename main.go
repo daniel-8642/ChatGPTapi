@@ -9,9 +9,12 @@ import (
 	"time"
 )
 
-func main() {
+func init() {
 	rand.Seed(time.Now().UnixNano())
 	initConfig()
+}
+
+func main() {
 	api := gin.Default()
 	// 只信任内网http代理，影响Context.ClientIP()获取的ip，这里影响日志中来源ip的记录
 	err := api.SetTrustedProxies([]string{

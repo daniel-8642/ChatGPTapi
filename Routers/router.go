@@ -24,10 +24,10 @@ var sendLog SendSyslog.Syslogger
 func SetUpRouter(api *gin.Engine) {
 	sendLog = SendSyslog.GetLogger()
 	api.Use(Middleware.Cors)
-	api.POST("/chat-process", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second*100, 10), chatProcess)
+	api.POST("/chat-process", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second*10, 10), Middleware.UserRateLimitMiddleware(time.Second*20, 1, "rate limit..."), chatProcess)
 	api.POST("/config", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second, 30), config)
 	api.POST("/session", Middleware.RateLimitMiddleware(time.Second, 30), sessiondata)
-	api.POST("/verify", Middleware.RateLimitMiddleware(5*time.Second, 5), verify)
+	api.POST("/verify", Middleware.RateLimitMiddleware(time.Second*5, 5), verify)
 	var cliconfig openai.ClientConfig
 	if viper.GetBool("Use_Azure") {
 		cliconfig = openai.DefaultAzureConfig(viper.GetString("Azure_OpenAI.API_Key"), viper.GetString("Azure_OpenAI.Endpoint"))
@@ -174,7 +174,7 @@ func config(c *gin.Context) {
 		"message": nil,
 		"data": map[string]any{
 			"apiModel":     "ChatGPTAPI",
-			"balance":      "4.938",
+			"balance":      "0.000000000000001",
 			"httpsProxy":   "-",
 			"reverseProxy": "",
 			"socksProxy":   "-",
