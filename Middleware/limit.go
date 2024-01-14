@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/juju/ratelimit"
 	"github.com/spf13/viper"
-	"net/http"
 	"time"
 )
 
@@ -35,7 +34,12 @@ func RateLimitMiddleware(fillInterval time.Duration, cap int64) gin.HandlerFunc 
 	bucket := ratelimit.NewBucket(fillInterval, cap)
 	return func(c *gin.Context) {
 		if bucket.TakeAvailable(1) < 1 {
-			c.String(http.StatusForbidden, "rate limit...")
+			data := map[string]any{
+				"status":  "Fail",
+				"message": "访问频率过快 | Frequency is too fast",
+				"data":    nil,
+			}
+			c.JSON(200, &data)
 			c.Abort()
 			return
 		}
@@ -48,7 +52,12 @@ func UserRateLimitMiddleware(fillInterval time.Duration, cap int64, errtext stri
 	initUsersBucket(fillInterval, cap)
 	return func(c *gin.Context) {
 		if UsersBucket[c.GetString("userName")].TakeAvailable(1) < 1 {
-			c.String(http.StatusForbidden, errtext)
+			data := map[string]any{
+				"status":  "Fail",
+				"message": errtext,
+				"data":    nil,
+			}
+			c.JSON(200, &data)
 			c.Abort()
 			return
 		}

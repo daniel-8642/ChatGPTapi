@@ -24,7 +24,7 @@ var sendLog SendSyslog.Syslogger
 func SetUpRouter(api *gin.Engine) {
 	sendLog = SendSyslog.GetLogger()
 	api.Use(Middleware.Cors)
-	api.POST("/chat-process", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second*10, 10), Middleware.UserRateLimitMiddleware(time.Second*20, 1, "rate limit..."), chatProcess)
+	api.POST("/chat-process", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second*60, 3), Middleware.UserRateLimitMiddleware(time.Second*20, 1, "访问频率过快 | Frequency is too fast"), chatProcess)
 	api.POST("/config", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second, 30), config)
 	api.POST("/session", Middleware.RateLimitMiddleware(time.Second, 30), sessiondata)
 	api.POST("/verify", Middleware.RateLimitMiddleware(time.Second*5, 5), verify)
