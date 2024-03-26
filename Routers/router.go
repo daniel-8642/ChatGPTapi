@@ -24,7 +24,7 @@ var sendLog SendSyslog.Syslogger
 func SetUpRouter(api *gin.Engine) {
 	sendLog = SendSyslog.GetLogger()
 	api.Use(Middleware.Cors)
-	api.POST("/chat-process", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second*60, 3), Middleware.UserRateLimitMiddleware(time.Second*20, 1, "访问频率过快 | Frequency is too fast"), chatProcess)
+	api.POST("/chat-process", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second*10, 6), Middleware.UserRateLimitMiddleware(time.Second*15, 3, "访问频率过快 | Frequency is too fast"), chatProcess)
 	api.POST("/config", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second, 30), config)
 	api.POST("/session", Middleware.RateLimitMiddleware(time.Second, 30), sessiondata)
 	api.POST("/verify", Middleware.RateLimitMiddleware(time.Second*5, 5), verify)
@@ -106,6 +106,14 @@ func chatProcess(c *gin.Context) {
 	stream, err := client.CreateChatCompletionStream(ctx, req)
 	if err != nil {
 		fmt.Printf("ChatCompletionStream error: %v\n", err)
+		// 请求过快错误处理
+		data := map[string]any{
+			"status":  "Fail",
+			"message": "接口访问频率过快 | API access is too frequent",
+			"data":    nil,
+		}
+		c.JSON(200, &data)
+		c.Abort()
 		return
 	}
 	chanStream := make(chan []byte, 100)
