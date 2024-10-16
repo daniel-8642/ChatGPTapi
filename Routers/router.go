@@ -2,7 +2,6 @@ package Routers
 
 import (
 	"GPTapi/Middleware"
-	"GPTapi/SendSyslog"
 	"context"
 	"crypto/tls"
 	"encoding/json"
@@ -19,10 +18,11 @@ import (
 )
 
 var client *openai.Client
-var sendLog SendSyslog.Syslogger
+
+//var sendLog SendSyslog.Syslogger
 
 func SetUpRouter(api *gin.Engine) {
-	sendLog = SendSyslog.GetLogger()
+	//sendLog = SendSyslog.GetLogger()
 	api.Use(Middleware.Cors)
 	api.POST("/chat-process", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second*10, 6), Middleware.UserRateLimitMiddleware(time.Second*15, 3, "访问频率过快 | Frequency is too fast"), chatProcess)
 	api.POST("/config", Middleware.Auth("UserList"), Middleware.RateLimitMiddleware(time.Second, 30), config)
@@ -85,7 +85,7 @@ func chatProcess(c *gin.Context) {
 		fmt.Printf("read text error: %v\n", err)
 		return
 	}
-	sendLog(reqBody.Prompt + "[" + c.GetString("userName") + "]")
+	//sendLog(reqBody.Prompt + "[" + c.GetString("userName") + "]")
 	req := openai.ChatCompletionRequest{
 		Model:     openai.GPT3Dot5Turbo,
 		MaxTokens: 1500,
